@@ -97,10 +97,10 @@ app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
-app.use((req, res, next) => {
-  console.log(`404 hit on URL: ${req.originalUrl}`);
-  next(new ExpressError(404, "Page not found"));
-});
+// app.use((req, res, next) => {
+//   console.log(`404 hit on URL: ${req.originalUrl}`);
+//   next(new ExpressError(404, "Page not found"));
+// });
 
 // Middleware
 app.use((err, req, res, next) => {
