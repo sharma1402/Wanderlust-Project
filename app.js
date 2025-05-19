@@ -16,6 +16,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
+const PORT = process.env.PORT || 8080;
+
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js")
 const userRouter = require("./routes/user.js")
@@ -52,7 +54,7 @@ const store = MongoStore.create({
     
 });
 
-store.on("error", () => {
+store.on("error", (err) => {
     console.log("ERROR in MONGONSESSION SESSION STORE", err);
 });
 
@@ -101,6 +103,6 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("listings/error.ejs",{message});
 });
 
-app.listen(8080, () => {
-    console.log("server is listening on port");
+app.listen(PORT, () => {
+    console.log(`server is listening on port ${PORT}`);
 });
