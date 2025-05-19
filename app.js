@@ -70,6 +70,10 @@ const sessionOptions = {
     } 
 };
 
+app.get("/", (req, res) => {
+  res.redirect("/listings"); // or render home page
+});
+
 app.use(session(sessionOptions));
 app.use(flash());
 
