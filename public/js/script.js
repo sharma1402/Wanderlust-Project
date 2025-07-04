@@ -3,7 +3,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
 
-    // ✅ Bootstrap validation
+    // Bootstrap validation
     const forms = document.querySelectorAll('.needs-validation');
     Array.from(forms).forEach(form => {
       form.addEventListener('submit', event => {
@@ -15,7 +15,7 @@
       }, false);
     });
 
-    // ✅ Tax switch toggle
+    // Tax switch toggle
     const taxSwitch = document.getElementById("flexswitchCheckDefault");
     if (taxSwitch) {
       taxSwitch.addEventListener("click", () => {
@@ -26,7 +26,7 @@
       });
     }
 
-    // ✅ Filter scroll buttons
+    //Filter scroll buttons
     const leftBtn = document.querySelector(".left-btn");
     const rightBtn = document.querySelector(".right-btn");
     const filtersContainer = document.querySelector(".filters-container");
@@ -41,6 +41,33 @@
       });
     }
 
+    function updateArrowVisibility() {
+    const scrollLeft = filtersContainer.scrollLeft;
+    const scrollWidth = filtersContainer.scrollWidth;
+    const clientWidth = filtersContainer.clientWidth;
+
+    // Hide left arrow if at the far left
+    leftBtn.style.display = scrollLeft <= 0 ? 'none' : 'block';
+
+    // Hide right arrow if at the far right
+    rightBtn.style.display = (scrollLeft + clientWidth >= scrollWidth - 1) ? 'none' : 'block';
+  }
+
+  // Attach scroll listener
+  filtersContainer.addEventListener('scroll', updateArrowVisibility);
+  // Initial visibility check
+  updateArrowVisibility();
+
+  // Also re-check after clicking
+  leftBtn.addEventListener("click", () => {
+    filtersContainer.scrollLeft -= filterWidth;
+    setTimeout(updateArrowVisibility, 300); // wait for scroll animation
+  });
+
+  rightBtn.addEventListener("click", () => {
+    filtersContainer.scrollLeft += filterWidth;
+    setTimeout(updateArrowVisibility, 300); // wait for scroll animation
+  });
   });
 
 })();
