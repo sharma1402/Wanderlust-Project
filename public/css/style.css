@@ -263,9 +263,7 @@ body{
   .filter {
     min-width: 5px; 
   }
-  .scroll-btn{
-    display: none;
-  }
+
   .card-img-top{
     height: 40vh !important;
   }
