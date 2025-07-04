@@ -1,0 +1,45 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 d-flex flex-column flex-md-row gap-4">
+      
+      <!-- Left: Booking Info -->
+      <div class="col-md-7">
+        <h3><b>You're booking: </b><%= listing.title %></h3>
+        <p class="text-muted"><i class="fa-solid fa-location-dot"></i> <%= listing.location %></p>
+        <img src="<%= listing.image.url %>" alt="Listing image" class="img-fluid rounded shadow-sm mb-4">
+
+        <div class="mb-3">
+          <h5><i class="fa-solid fa-calendar-days"></i> Booking Details</h5>
+          <p><strong>Start Date:</strong> <%= startDate %></p>
+          <p><strong>End Date:</strong> <%= endDate %></p>
+          <p><strong>Total Nights:</strong> <%= days %></p>
+        </div>
+      </div>
+
+      <!-- Right: Price Summary -->
+      <div class="col-md-5">
+        <div class="card shadow-sm p-4 sticky-top" style="top: 100px;">
+          <h5 class="mb-3">Payment Summary</h5>
+          <div class="d-flex justify-content-between mb-2">
+            <span>₹<%= listing.price %> x <%= days %> night(s)</span>
+            <span>₹<%= totalPrice %></span>
+          </div>
+          <hr />
+          <div class="d-flex justify-content-between fw-bold mb-3">
+            <span>Total</span>
+            <span>₹<%= totalPrice %></span>
+          </div>
+
+          <form action="/bookings/checkout/<%= listing._id %>" method="POST">
+            <input type="hidden" name="startDate" value="<%= startDate %>">
+            <input type="hidden" name="endDate" value="<%= endDate %>">
+            <button class="btn btn-pay w-100 ">Confirm and Pay</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

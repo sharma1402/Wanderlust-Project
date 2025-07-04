@@ -8,10 +8,11 @@ const listingSchema = new Schema ({
         required: true,
     },
     description: String,
-    image: {
-      url: String,
-      filename: String
-    },
+    image:
+      {
+        url: String,
+        filename: String
+      },
     price:{
       type: Number,
       min: [0, 'Price cannot be negative']
@@ -36,7 +37,10 @@ const listingSchema = new Schema ({
         type: [Number],
         required: true
       }
-    }
+    },
+    category: {
+    type: String,
+  },
 });
 
 listingSchema.post("findOneAndDelete", async (listing) => {

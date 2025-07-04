@@ -4,7 +4,8 @@ const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
-const userController = require("../controllers/users.js")
+const userController = require("../controllers/users.js");
+const { isLoggedIn } = require("../middleware");
 
 router.route("/signup")
 .get(userController.renderSignupForm)
@@ -21,6 +22,8 @@ router.route("/login")
     userController.login
 );
 
-router.get("/logout", userController.logout )
+router.get("/logout", userController.logout );
+
+router.get("/dashboard", isLoggedIn, userController.renderDashboard);
 
 module.exports = router;

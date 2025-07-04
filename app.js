@@ -19,8 +19,9 @@ const User = require("./models/user.js");
 const PORT = process.env.PORT || 8080;
 
 const listingRouter = require("./routes/listing.js");
-const reviewRouter = require("./routes/review.js")
-const userRouter = require("./routes/user.js")
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+const bookingRoutes = require("./routes/booking.js");
 
 // const mongo_url = 'mongodb://127.0.0.1:27017/wanderlust';
 const dbUrl = process.env.ATLASDB_URL
@@ -34,7 +35,7 @@ main()
 });
 
 async function main() {
-    await mongoose.connect(dbUrl);
+    mongoose.connect(dbUrl);
 }
 
 app.set("view engine", "ejs");
@@ -96,6 +97,7 @@ app.use((req,res,next) => {
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+app.use("/bookings", bookingRoutes);
 
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page not found"));

@@ -1,33 +1,97 @@
-<nav class="navbar  navbar-expand-md bg-body-light border-bottom sticky-top" >
+<!-- First Navbar: Large screens (md and above) -->
+<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom sticky-top py-2 px-4 shadow-sm d-none d-md-flex">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
-    <button 
-    class="navbar-toggler" 
-    type="button" 
-    data-bs-toggle="collapse" 
-    data-bs-target="#navbarNavAltMarkup" >
+
+    <div class="nav-logo">
+      <a class="navbar-brand d-flex align-items-center text-danger fw-bold fs-4" href="/listings">
+        <i class="fa-regular fa-compass"></i> <div class="head ms-1">Wanderlust</div>
+      </a>
+    </div>
+
+    <div class="flex-grow-1 mx-4">
+      <form class="d-flex justify-content-center" role="search" action="/listings/search" method="get">
+        <input class="form-control me-2 rounded-pill px-4 search-input" type="search" name="q" placeholder="search Location | Title | Price" aria-label="Search"/>
+        <button class="btn btn-search" type="submit">
+          <i class="fa-solid fa-magnifying-glass text-white"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="d-flex align-items-center gap-3 flex-shrink-0">
+      <a href="/listings/new" class="text-dark text-decoration-none fw-semibold">Become a host</a>
+
+      <div class="dropdown nav-drop">
+        <button class="btn btn-success rounded-pill px-3 py-2 shadow-sm d-flex align-items-center gap-2 width" data-bs-toggle="dropdown">
+          <i class="fa-solid fa-bars"></i>
+          <i class="fa-solid fa-user-circle fs-5 icon"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <% if (!currUser) { %>
+            <li><a class="dropdown-item" href="/signup">Sign Up</a></li>
+            <li><a class="dropdown-item" href="/login">Log In</a></li>
+          <% } else { %>
+            <li><a class="dropdown-item" href="/dashboard">My Dashboard</a></li>
+            <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<!-- Second Navbar: Small screens only -->
+<!-- Mobile Navbar: Small screens only -->
+<nav class="navbar bg-white shadow-sm d-flex d-md-none">
+  <div class="container-fluid">
+    <div class="nav-logo">
+      <a class="navbar-brand d-flex align-items-center text-danger fw-bold fs-4" href="/listings">
+        <i class="fa-regular fa-compass"></i> <div class="head ms-1">Wanderlust</div>
+      </a>
+    </div>
+
+    <!-- Toggle Button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+      aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+
+    <!-- Offcanvas Panel: Minimal height/width -->
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"
+      style="height: auto; max-height: 400px;">
+      <div class="offcanvas-header ">
+        <div>
+          <% if (currUser) { %>
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><i class="fa-solid fa-user-circle nav-2-icon"></i>
+            &nbsp; &nbsp;<%= currUser.username.charAt(0).toUpperCase() + currUser.username.slice(1) %>
+          <% } else { %>
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Welcome</h5>
+            <% } %>
+        </div>
+        <button type="button" class="btn-close ms-50" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="navbar-nav ms-auto ">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2 search-input input2" type="search" placeholder="search destination" aria-label="Search"/>
-          <button class="btn btn-search " type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+      <div class="offcanvas-body">
+        <form class="d-flex justify-content-center mt-2 mb-2" role="search" action="/listings/search" method="get">
+          <input class="form-control me-2 rounded-pill px-4 search-input" type="search" name="q" placeholder="search Location | Title | Price" aria-label="Search"/>
+          <button class="btn btn-search" type="submit">
+            <i class="fa-solid fa-magnifying-glass text-white"></i>
+          </button>
         </form>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <% if(!currUser) {%>
-          <a class="nav-link active"  href="/signup"><b>Sign Up</b></a>
-          <a class="nav-link" href="/login"><b>Log In</b></a>
-        <% } %>
-        <% if(currUser) {%>
-          <a class="nav-link" href="/logout"><b>Log Out</b></a>
-        <% } %>
+        <ul class="navbar-nav flex-column">
+          <li class="nav-item"><a class="nav-link" href="/listings">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/listings/new">Become a host</a></li>
+          <% if (!currUser) { %>
+            <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+          <% } else { %>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">My Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+          <% } %>
+        </ul>
       </div>
     </div>
   </div>
 </nav>
+
+

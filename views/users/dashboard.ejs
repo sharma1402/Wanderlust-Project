@@ -1,0 +1,75 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <div class="mb-4">
+    <h2>Welcome, <%= currUser.username %> 👋</h2>
+  </div>
+
+  <div class="row">
+    <!-- My Listings Section -->
+    <div class="col-md-6 mb-5">
+      <h4><i class="fa-solid fa-house"></i> My Listings</h4>
+      <% if (myListings.length === 0) { %>
+        <p class="text-muted">You haven't listed any properties yet.</p>
+      <% } else { %>
+          <% myListings.forEach(listing => { %>
+            <div class="card mb-3 shadow-sm">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="<%= listing.image.url %>" class="img-fluid rounded-start mt-2 mb-2 px-2" alt="Listing Image">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body mt-2 mb-2 px-2">
+                    <a href="/listings/<%=listing._id%>" class="text-decoration-none text-reset">
+                      <h5 class="card-title"><%= listing.title %></h5>
+                    </a>
+                    <p class="card-text"><%= listing.location %></p>
+                    <div>
+                      <a href="/listings/<%= listing._id %>/edit" class="btn btn-sm btn-dark edit-btn px-2">Edit</a> &nbsp; &nbsp;
+                      <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-dark">Delete</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+      <% } %>
+    </div>
+
+    <!-- My Bookings Section -->
+    <div class="col-md-6 mb-5">
+      <h4><i class="fa-solid fa-calendar-check"></i> My Bookings</h4>
+      <% if (myBookings.length === 0) { %>
+        <p class="text-muted">You haven't made any bookings yet.</p>
+      <% } else { %>
+        <% myBookings.forEach(booking => { %>
+          <a href="/listings/<%=booking.listing._id%>" class="text-decoration-none text-reset">
+            <div class="card mb-3 shadow-sm ">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="<%= booking.listing.image.url %>" class="img-fluid rounded-start mt-2 mb-2 px-2" alt="Booking Image">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body dash-p mt-2 mb-2 px-2">
+                    <h5 class="card-title"><%= booking.listing.title %></h5>
+                    <p class="card-text"><i class="fa-solid fa-location-dot"></i> <%= booking.listing.location %></p>
+                    <p class="card-text">
+                      <b>From: </b> <%= new Date(booking.startDate).toDateString() %> &nbsp; &nbsp;
+                      <b>To: </b> <%= new Date(booking.endDate).toDateString() %>
+                    </p>
+                    <p class="card-text"><b>Paid: </b> ₹<%= booking.totalPrice.toLocaleString("en-IN") %></p>
+                    <form action="/bookings/<%= booking.listing._id %>/<%= booking._id %>?_method=DELETE" method="POST">
+                      <button type="submit" class="btn btn-danger btn-sm">Cancel Booking</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </a>
+      <% } %>
+    </div>
+  </div>
+</div>
