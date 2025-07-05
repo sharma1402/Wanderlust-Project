@@ -26,4 +26,8 @@ router.get("/logout", userController.logout );
 
 router.get("/dashboard", isLoggedIn, userController.renderDashboard);
 
+router.get("/delete", isLoggedIn, userController.renderDeleteForm);
+
+router.delete("/delete", isLoggedIn, userController.deleteAccount);
+
 module.exports = router;

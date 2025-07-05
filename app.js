@@ -13,8 +13,7 @@ const session = require("express-session");
 const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const User = require("./models/user.js");
+require("./passport");
 
 const PORT = process.env.PORT || 8080;
 
@@ -51,8 +50,7 @@ const store = MongoStore.create({
     crypto:{
         secret: process.env.SECRET,
     },
-    touchAfter: 24 * 3600,
-    
+    touchAfter: 24 * 3600,  
 });
 
 store.on("error", (err) => {
@@ -80,10 +78,6 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 //mw for flash connect
 app.use((req,res,next) => {
@@ -93,6 +87,20 @@ app.use((req,res,next) => {
     res.locals.mapApiKey = process.env.API_KEY;
     next();
 });
+
+// Start OAuth flow
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+// Google callback
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login', failureFlash: true }),
+  (req, res) => {
+    req.flash("success", "Welcome back to Wanderlust!");
+    res.redirect("/listings");
+  }
+);
 
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);

@@ -54,3 +54,38 @@ module.exports.renderDashboard = async(req, res) => {
 
     res.render("users/dashboard.ejs", { myListings, myBookings });
 }
+
+// Show confirmation form
+module.exports.renderDeleteForm = (req, res) => {
+    res.render("users/delete");
+};
+
+// Handle deletion
+module.exports.deleteAccount = async (req, res) => {
+    const { password } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    // If it's a Google OAuth user (no password), allow deletion directly
+    if (user.googleId || !user.authenticate) {
+        await User.findByIdAndDelete(req.user._id);
+        req.logout(() => {
+            req.flash("success", "Your account and data were deleted.");
+            res.redirect("/listings");
+        });
+        return;
+    }
+
+    // Validate password for local users
+    const isValid = await user.authenticate(password);
+    if (!isValid.user) {
+        req.flash("error", "Incorrect password.");
+        return res.redirect("/delete");
+    }
+
+    await User.findByIdAndDelete(req.user._id);
+    req.logout(() => {
+        req.flash("success", "Your account and data were deleted.");
+        res.redirect("/listings");
+    })
+};

@@ -52,36 +52,48 @@
     rightBtn.style.display = (scrollLeft + clientWidth >= scrollWidth - 1) ? 'none' : 'block';
   }
 
-  // Attach scroll listener
-  filtersContainer.addEventListener('scroll', updateArrowVisibility);
-  // Initial visibility check
-  updateArrowVisibility();
+    if (filtersContainer) {
+      filtersContainer.addEventListener('scroll', updateArrowVisibility);
+      // Initial visibility check
+      updateArrowVisibility();
 
-  // Also re-check after clicking
-  leftBtn.addEventListener("click", () => {
-    filtersContainer.scrollLeft -= filterWidth;
-    setTimeout(updateArrowVisibility, 300); // wait for scroll animation
+      // Also re-check after clicking
+      leftBtn.addEventListener("click", () => {
+        filtersContainer.scrollLeft -= filterWidth;
+        setTimeout(updateArrowVisibility, 300); // wait for scroll animation
+      });
+
+      rightBtn.addEventListener("click", () => {
+        filtersContainer.scrollLeft += filterWidth;
+        setTimeout(updateArrowVisibility, 300); // wait for scroll animation
+      });
+    }
   });
 
-  rightBtn.addEventListener("click", () => {
-    filtersContainer.scrollLeft += filterWidth;
-    setTimeout(updateArrowVisibility, 300); // wait for scroll animation
-  });
-  });
-})();
-
-// flatpickr for booking dates
-flatpickr("#startDate", {
-    altInput: true,
-    altFormat: "F j, Y",
+  // flatpickr for booking dates
+  flatpickr("#startDate", {
     dateFormat: "Y-m-d",
-    disable: bookedRanges
+    disable: window.bookedRanges,
+    onChange: function(selectedDates, dateStr) {
+      document.getElementById("endDate")._flatpickr.set("minDate", dateStr);
+    }
   });
 
   flatpickr("#endDate", {
-    altInput: true,
-    altFormat: "F j, Y",
     dateFormat: "Y-m-d",
-    disable: bookedRanges
+    disable: window.bookedRanges
   });
+
+  const deleteForm = document.getElementById("deleteForm");
+
+  if (deleteForm) {
+    deleteForm.addEventListener("submit", (e) => {
+      const confirmed = confirm("Are you sure you want to delete your account? This will permanently remove your listings, bookings, and reviews.");
+      if (!confirmed) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+
 
