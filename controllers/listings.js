@@ -30,13 +30,20 @@ module.exports.showListing = async (req, res) => {
         req.flash("error","Listing you requested for does not exists!");
         return res.redirect("/listings");
     }
-    const bookings = await Booking.find({ listing: listing._id });
-    const bookedDates = bookings.map(b => ({
-      from: b.startDate.toISOString().split("T")[0],
-      to: b.endDate.toISOString().split("T")[0]
-    }));
+    let bookedDates = [];
+    if (req.user) {
+      const bookings = await Booking.find({ listing: listing._id });
+      bookedDates = bookings.map((b) => ({
+        from: b.startDate.toISOString().split("T")[0],
+        to: b.endDate.toISOString().split("T")[0],
+      }));
+    }
 
-    res.render("listings/show.ejs", { listing, bookedDates });
+  res.render("listings/show", {
+    listing,
+    bookedDates,     
+    currUser: req.user,
+  })
 }
 
 module.exports.createListing = async (req,res) => {

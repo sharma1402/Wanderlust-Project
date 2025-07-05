@@ -268,7 +268,7 @@ body{
     height: 40vh !important;
   }
   #map{
-    height: 30vh !important;
+    height: 40vh !important;
   }
   .tax-toggle{
     display: none !important;
@@ -283,4 +283,8 @@ body{
 .dash-card :hover{
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+/* login and signup */
+.log p a{
+    text-decoration: none !important;
 }

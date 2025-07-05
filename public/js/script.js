@@ -46,7 +46,6 @@
     const scrollWidth = filtersContainer.scrollWidth;
     const clientWidth = filtersContainer.clientWidth;
 
-    // Hide left arrow if at the far left
     leftBtn.style.display = scrollLeft <= 0 ? 'none' : 'block';
 
     // Hide right arrow if at the far right
@@ -69,20 +68,20 @@
     setTimeout(updateArrowVisibility, 300); // wait for scroll animation
   });
   });
-
 })();
 
 // flatpickr for booking dates
 flatpickr("#startDate", {
+    altInput: true,
+    altFormat: "F j, Y",
     dateFormat: "Y-m-d",
-    disable: window.bookedRanges,
-    onChange: function(selectedDates, dateStr) {
-      document.getElementById("endDate").flatpickr.set("minDate", dateStr);
-    }
+    disable: bookedRanges
   });
 
   flatpickr("#endDate", {
+    altInput: true,
+    altFormat: "F j, Y",
     dateFormat: "Y-m-d",
-    disable: window.bookedRanges
+    disable: bookedRanges
   });
 
