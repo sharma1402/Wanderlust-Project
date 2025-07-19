@@ -200,6 +200,10 @@ module.exports.search = async (req, res) => {
 
 module.exports.destroyListing = async (req,res) =>{
     let {id} = req.params;
+    const listing = await Listing.findById(id);
+    if (listing?.image?.filename) {
+      await cloudinary.uploader.destroy(listing.image.filename);
+    }
     let deletedListing = await Listing.findByIdAndDelete(id);
     // console.log(deletedListing);
     req.flash("success","Listing Deleted!");
