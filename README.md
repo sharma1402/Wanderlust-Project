@@ -80,3 +80,26 @@
 ```bash
 git clone https://github.com/sharma1402/Wanderlust-Project.git
 cd Wanderlust-Project
+
+2️⃣ Install Dependencies
+npm install
+
+3️⃣ Set Up Environment Variables
+
+Create a .env file in the root directory and add the following variables:
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_KEY=your_key
+CLOUDINARY_SECRET=your_secret
+GOOGLE_MAPS_API_KEY=your_maps_key
+STRIPE_SECRET_KEY=your_stripe_key
+SESSION_SECRET=your_session_secret
+
+🔑 Note: Replace your_cloud_name, your_key, your_secret, etc., with your actual API keys and secrets.
+
+4️⃣ Run the Application
+node app.js
+
+5️⃣ Open in Browser
+
+Visit http://localhost:3000 to see the application in action.
