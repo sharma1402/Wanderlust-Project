@@ -76,7 +76,7 @@
 
 ## ⚙️ Installation & Setup
 ```bash
-### 1️⃣ Clone the Repository
+1️⃣ Clone the Repository
 git clone https://github.com/sharma1402/Wanderlust-Project.git
 cd Wanderlust-Project
 
